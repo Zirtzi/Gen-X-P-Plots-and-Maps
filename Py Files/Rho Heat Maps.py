@@ -18,9 +18,10 @@ time = [ti, tf]     # Time array
 zman = [qi, qf]     # Zeeman shift array
 
 ''' ----- ----- ----- ----- Parameter Space and Partition Size ----- ----- ----- ----- '''
-partition = 100     # Partition size
-zeemanSpace = np.linspace(zman[0], zman[-1], partition)     # Zeemanshift space
-timeSpace = np.linspace(time[0], time[-1], partition)       # Time Space
+zeemanPartition = 100     # Partition size
+timePartition = 1000
+zeemanSpace = np.linspace(zman[0], zman[-1], zeemanPartition)     # Zeemanshift space
+timeSpace = np.linspace(time[0], time[-1], timePartition)       # Time Space
 
 ''' ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- '''
 
@@ -36,12 +37,12 @@ def SolveMe(IC, t, args):
     return f
 
 ''' ----- ----- ----- ----- Solution Matrix ----- ----- ----- ----- '''
-sol = np.zeros((partition, partition))
-for i in range(partition):
+sol = np.zeros((timePartition, zeemanPartition))
+for i in range(zeemanPartition):
     sol[:, i] = odeint(SolveMe, ic, timeSpace, args=(zeemanSpace[i],))[:, 0]
 
 plt.figure()
-plt.contourf(zeemanSpace, timeSpace, sol, levels=300, cmap=plt.cm.hsv)
+plt.contourf(zeemanSpace, timeSpace, sol, levels=300)
 plt.title('$\u03C1$ w.r.t Zeemanshift and Time w/ $\u03C1_{0}$ = ' + str(ic[0]))
 plt.xlabel('Zeeman Shift (q)')
 plt.ylabel('Time (s)')

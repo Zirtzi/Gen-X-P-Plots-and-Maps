@@ -10,17 +10,18 @@ m = 0.00            # m value
 r0 = 0.75           # Initial condition for rho not
 o0 = 0.00           # Initial condition for theta
 ti = 0              # Initial time value
-tf = 120            # Final time value
-qi = -2             # Minimum zeeman shift value
-qf = 2              # Maximum zeeman shift value
+tf = 240            # Final time value
+qi = -4             # Minimum zeeman shift value
+qf = 4              # Maximum zeeman shift value
 ic = [r0, o0]       # Initial condition array
 time = [ti, tf]     # Time array
 zman = [qi, qf]     # Zeeman shift array
 
 ''' ----- ----- ----- ----- Parameter Space and Partition Size ----- ----- ----- ----- '''
 zeemanPartition = 100     # Zeeman shift partition size
+timePartition = 10000
 zeemanSpace = np.linspace(zman[0], zman[-1], zeemanPartition)     # Zeemanshift space
-timeSpace = np.linspace(time[0], time[-1], zeemanPartition)       # Time Space
+timeSpace = np.linspace(time[0], time[-1], timePartition)       # Time Space
 
 ''' ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- '''
 
@@ -36,15 +37,16 @@ def SolveMe(IC, t, args):
     return f
 
 ''' ----- ----- ----- ----- Solution Matrix ----- ----- ----- ----- '''
-sol = np.zeros((zeemanPartition, zeemanPartition))      # Solution Matrix
-solT = np.zeros(zeemanPartition)
+sol = np.zeros((timePartition, zeemanPartition))      # Solution Matrix
+solT = np.zeros(zeemanPartition)                      # Time Average Matrix
 
 for i in range(zeemanPartition):
-    sol[:, i] = odeint(SolveMe, ic, timeSpace, args=(zeemanSpace[i],))[:, 1]
-    solT[i] = (1/time[-1])*np.sum(np.cos(sol[:, i]))*(timeSpace[-1]/zeemanPartition)
-        
-''' ----- ----- ----- ----- Plots ----- ----- ----- ----- '''
+    sol[:, i] = odeint(SolveMe, ic, timeSpace, args=(zeemanSpace[i],))[:, 1] 
+    solT[i] = ((1/time[-1])*np.sum(np.cos(sol[:, i]/2))*(timeSpace[-1]/timePartition))
 
+    
+''' ----- ----- ----- ----- Plots ----- ----- ----- ----- '''
+    
 plt.plot(zeemanSpace, solT, label='$\u03C1_{0}=$ ' + str(ic[0]))
 plt.title('Time Average $\u0398$ w.r.t Zeemanshift')
 plt.ylabel('Time Average $\u0398$')

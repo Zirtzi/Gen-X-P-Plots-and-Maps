@@ -18,9 +18,10 @@ time = [ti, tf]     # Time array
 zman = [qi, qf]     # Zeeman shift array
 
 ''' ----- ----- ----- ----- Parameter Space and Partition Size ----- ----- ----- ----- '''
-partition = 100     # Partition size
-zeemanSpace = np.linspace(zman[0], zman[-1], partition)     # Zeemanshift space
-timeSpace = np.linspace(time[0], time[-1], partition)       # Time Space
+zeemanPartition = 100     # Partition size
+timeParition = 1000
+zeemanSpace = np.linspace(zman[0], zman[-1], zeemanPartition)     # Zeemanshift space
+timeSpace = np.linspace(time[0], time[-1], timeParition)       # Time Space
 
 ''' ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- '''
 
@@ -36,9 +37,10 @@ def SolveMe(IC, t, args):
     return f
 
 ''' ----- ----- ----- ----- Solution Matrix ----- ----- ----- ----- '''
-sol = np.zeros((partition, partition))
-for i in range(partition):
+sol = np.zeros((timeParition, zeemanPartition))
+for i in range(zeemanPartition):
     sol[:, i] = odeint(SolveMe, ic, timeSpace, args=(zeemanSpace[i],))[:, 1]
+
 
 plt.figure()
 plt.contourf(zeemanSpace, timeSpace, sol, levels=300)
