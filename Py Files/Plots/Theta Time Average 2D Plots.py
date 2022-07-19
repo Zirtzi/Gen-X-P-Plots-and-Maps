@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
+from scipy.signal import find_peaks
 
 ''' ----- ----- ----- ----- I.C and Global Variables: ----- ----- ----- ----- '''
 xi = 1.00           # Xi value
@@ -10,7 +11,7 @@ m = 0.00            # m value
 r0 = 0.75           # Initial condition for rho not
 o0 = 0.00           # Initial condition for theta
 ti = 0              # Initial time value
-tf = 240            # Final time value
+tf = 60             # Final time value
 qi = -4             # Minimum zeeman shift value
 qf = 4              # Maximum zeeman shift value
 ic = [r0, o0]       # Initial condition array
@@ -44,6 +45,9 @@ for i in range(zeemanPartition):
     sol[:, i] = odeint(SolveMe, ic, timeSpace, args=(zeemanSpace[i],))[:, 1] 
     solT[i] = ((1/time[-1])*np.sum(np.cos(sol[:, i]/2))*(timeSpace[-1]/timePartition))
 
+for j in range(1, len(solT)):
+    if (np.absolute(solT[j]-solT[j-1])) >= 0.1:
+        print("We have a jump here: " + str((zeemanSpace[j]+zeemanSpace[j-1])/2))
     
 ''' ----- ----- ----- ----- Plots ----- ----- ----- ----- '''
     
