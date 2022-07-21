@@ -50,7 +50,7 @@ for i in range(zeemanPartition):
         
 plt.figure()
 plt.contourf(zeemanSpace, rhoSpace, timeAvgSol, levels=300)
-plt.title("Time Average $\u0398$ w.r.t Zeemanshift and $\u03C1_{0}$")
+plt.title(r"Time Average $\Theta$ w.r.t Zeemanshift and $\rho_{0}$")
 plt.xlabel("Zeeman shift q")
 plt.ylabel("$\u03C1_{0}$")
 plt.colorbar()
