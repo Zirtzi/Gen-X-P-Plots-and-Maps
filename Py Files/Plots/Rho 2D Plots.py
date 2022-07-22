@@ -35,9 +35,9 @@ sol = odeint(SolveMe, ic, t) # Solution to ODE
 
 ''' ----- ----- ----- ----- Plots of solutions:  ----- ----- ----- -----'''
 plt.plot(t, sol[:, 0], label = 'q = ' + str(q), color = 'deeppink') # Rho plot
-plt.title('$\u03C1$  w.r.t Time w/ $\u03C1_{0}$ = ' + str(r0))
-plt.xlabel('Time (s)')
-plt.ylabel("$\u03C1$")
+plt.title(r"$\rho$  w.r.t Time w/ $\rho{0}$ = " + str(r0))
+plt.xlabel(r'Time (s)')
+plt.ylabel(r"$\rho$")
 plt.legend(loc='upper left')
 plt.show() # Show plot
 

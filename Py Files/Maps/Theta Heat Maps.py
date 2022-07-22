@@ -44,9 +44,9 @@ for i in range(zeemanPartition):
 
 plt.figure()
 plt.contourf(zeemanSpace, timeSpace, sol, levels=300)
-plt.title('$\u0398$ w.r.t Zeemanshift and Time w/ $\u03C1_{0}$ = ' + str(ic[0]))
-plt.xlabel('Zeeman Shift (q)')
-plt.ylabel('Time (s)')
+plt.title(r"$\Theta$ w.r.t q and Time w/ $\rho_{0}$ = " + str(ic[0]))
+plt.xlabel(r"Zeeman Shift (q)")
+plt.ylabel(r"Time (s)")
 plt.colorbar()
 plt.show()
 

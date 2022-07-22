@@ -1,9 +1,9 @@
 ''' ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- '''
 ''' ----- ----- ----- ----- Module imports and what not ----- ----- ----- -----  '''
 import numpy as np
+from numpy import gradient
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
-from scipy.signal import find_peaks
 
 ''' ----- ----- ----- ----- I.C and Global Variables: ----- ----- ----- ----- '''
 xi = 1.00           # Xi value
@@ -44,16 +44,26 @@ solT = np.zeros(zeemanPartition)                      # Time Average Matrix
 for i in range(zeemanPartition):
     sol[:, i] = odeint(SolveMe, ic, timeSpace, args=(zeemanSpace[i],))[:, 1] 
     solT[i] = ((1/time[-1])*np.sum(np.cos(sol[:, i]/2))*(timeSpace[-1]/timePartition))
+        
+''' ----- ----- ----- ----- Derivatives of Data ----- ----- ----- ----- '''
 
-for j in range(1, len(solT)):
-    if (np.absolute(solT[j]-solT[j-1])) >= 0.1:
-        print("We have a jump here: " + str((zeemanSpace[j]+zeemanSpace[j-1])/2))
-    
+dy = gradient(solT)
+dx = gradient(zeemanSpace)
+dydx = dy/dx
+
+# =============================================================================
+# for k in range(1, len(dydx)):
+#     if (np.absolute(dydx[k]-dydx[k-1])) >= 5:
+#         print("We have a jump here: " + str((zeemanSpace[k]+zeemanSpace[k-1])/2))
+# =============================================================================
+
+
 ''' ----- ----- ----- ----- Plots ----- ----- ----- ----- '''
     
-plt.plot(zeemanSpace, solT, label='$\u03C1_{0}=$ ' + str(ic[0]))
-plt.title('Time Average $\u0398$ w.r.t Zeemanshift')
-plt.ylabel('Time Average $\u0398$')
+plt.plot(zeemanSpace, solT, label=r'$\rho_{0}=$ ' + str(ic[0]))
+plt.plot(zeemanSpace, dydx, label=r"Derivative")
+plt.title(r'$\bar{\Theta}$ w.r.t Zeemanshift')
+plt.ylabel(r'$\bar{\Theta}$')
 plt.xlabel('Zeemanshift q')
 plt.legend(loc='upper right')
 plt.show()
