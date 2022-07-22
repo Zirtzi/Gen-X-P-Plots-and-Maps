@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 
 ''' ----- ----- ----- ----- I.C and Global Variables: ----- ----- ----- ----- '''
-rhoPartition = 25         # Rho space partition size
-thetaPartition = 25       # Theta space partition size
+rhoPartition = 50         # Rho space partition size
+thetaPartition = 50       # Theta space partition size
 timePartition = 100       # Time space partition size
 xi = 1.00                 # Xi value
 m = 0.00                  # m value

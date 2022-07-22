@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 
 ''' ----- ----- ----- ----- I.C and Global Variables: ----- ----- ----- ----- '''
-zeemanPartition = 25      # Zeeman shift partition size
-rhoPartition = 25         # Rho not space partition size
+zeemanPartition = 50      # Zeeman shift partition size
+rhoPartition = 50         # Rho not space partition size
 timePartition = 100       # Time space partition size
 xi = 1.00                 # Xi value
 m = 0.00                  # m value
